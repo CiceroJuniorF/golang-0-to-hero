@@ -1,0 +1,65 @@
+{
+	"name": "Go Development",
+	"image": "golang:latest",
+	// Features para adicionar funcionalidades úteis
+	"features": {
+		"ghcr.io/devcontainers/features/git:1": {},
+		"ghcr.io/devcontainers/features/github-cli:1": {}
+	},
+	// Configurações do VS Code/Cursor
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"golang.go",
+				"ms-vscode.vscode-json",
+				"redhat.vscode-yaml",
+				"ms-azuretools.vscode-docker",
+				"eamodio.gitlens"
+			],
+			"settings": {
+				"go.useLanguageServer": true,
+				"go.gopath": "/go",
+				"go.goroot": "/usr/local/go",
+				"go.toolsManagement.checkForUpdates": "local",
+				"go.testFlags": [
+					"-v"
+				],
+				"go.lintTool": "golangci-lint",
+				"go.lintOnSave": "package",
+				"go.formatTool": "goimports",
+				"go.formatFlags": [
+					"-local",
+					"github.com/your-org"
+				],
+				"editor.formatOnSave": true,
+				"editor.codeActionsOnSave": {
+					"source.organizeImports": "explicit"
+				},
+				"[go]": {
+					"editor.defaultFormatter": "golang.go",
+					"editor.formatOnSave": true,
+					"editor.codeActionsOnSave": {
+						"source.organizeImports": "explicit"
+					}
+				}
+			}
+		}
+	},
+	// Comandos a serem executados após criar o container
+	"postCreateCommand": "go version && go env",
+	// Configurações do container
+	"remoteUser": "root",
+	"workspaceFolder": "/workspace",
+	"mounts": [
+		"source=${localWorkspaceFolder},target=/workspace,type=bind"
+	],
+	// Variáveis de ambiente
+	"remoteEnv": {
+		"GO111MODULE": "on",
+		"CGO_ENABLED": "0"
+	},
+	// Portas a serem encaminhadas (adicione conforme necessário)
+	"forwardPorts": [],
+	// Comandos para instalar ferramentas adicionais
+	"postStartCommand": "go install golang.org/x/tools/gopls@latest && go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest && go install golang.org/x/tools/cmd/goimports@latest"
+}
